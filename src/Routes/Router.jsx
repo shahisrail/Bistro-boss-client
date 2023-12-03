@@ -11,6 +11,14 @@ import DashBorad from "../Layout/DashBorad";
 
 import Cart from "../Pages/Dashborad/Cart/Cart";
 import AllUsers from "../Pages/Dashborad/AllUsers";
+import AddIteams from "../Pages/Dashborad/AddIteams/AddIteams";
+import AdminRoute from "./AdminRoute";
+import ManageItem from "../Pages/Dashborad/MangaeItem/ManageItem";
+import UpdateItem from "../Pages/Dashborad/UpdateIteam/UpdateItem";
+import Payemnt from "../Pages/Dashborad/Payment/Payemnt";
+import PaymentHistory from "../Pages/Dashborad/PaymentHistory/PaymentHistory";
+import AdminHome from "../Pages/Dashborad/AdminHome/AdminHome";
+import UserHome from "../Pages/Dashborad/UserHome/UserHome";
 
 export const router = createBrowserRouter([
   {
@@ -47,11 +55,11 @@ export const router = createBrowserRouter([
     path: "/signUp",
     element: <SignUp></SignUp>,
   },
+
   {
     path: "/dashborad",
     element: (
       <PrivateRoutes>
-        {" "}
         <DashBorad></DashBorad>
       </PrivateRoutes>
     ),
@@ -60,10 +68,69 @@ export const router = createBrowserRouter([
         path: "cart",
         element: <Cart></Cart>,
       },
+      {
+        path: "payementHistory",
+        element: <PaymentHistory></PaymentHistory>,
+      },
+      {
+        path: "payment",
+        element: <Payemnt></Payemnt>,
+      },
+      {
+        path: "UserHome",
+        element:<UserHome></UserHome>
+      },
       // admin routes
+
+      {
+        path: "AddIteams",
+        element: (
+          <AdminRoute>
+            <AddIteams></AddIteams>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "AdminHome",
+        element: (
+          <AdminRoute>
+            <AdminHome></AdminHome>
+          </AdminRoute>
+        ),
+      },
       {
         path: "AllUsers",
-        element: <AllUsers></AllUsers>
+        element: (
+          <AdminRoute>
+            <AllUsers></AllUsers>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manageItems",
+        element: (
+          <AdminRoute>
+            <ManageItem></ManageItem>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manageItems",
+        element: (
+          <AdminRoute>
+            <ManageItem></ManageItem>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "updateItem/:id",
+        element: (
+          <AdminRoute>
+            <UpdateItem></UpdateItem>
+          </AdminRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/menu/${params.id}`),
       },
     ],
   },

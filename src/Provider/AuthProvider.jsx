@@ -12,6 +12,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { app } from "../firebase/Firebase.config";
+import UseaxioxPulic from "../hooks/UseaxioxPulic";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
@@ -19,7 +20,8 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const googleProvider = new GoogleAuthProvider()
+  const googleProvider = new GoogleAuthProvider();
+  const axiosPublic = UseaxioxPulic();
 
   /* created user  */
   const createUser = (email, password) => {
@@ -27,12 +29,12 @@ const AuthProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-   /* sign in with google */
+  /* sign in with google */
   const googleSignin = () => {
-    setLoading(true)
-    return signInWithPopup(auth,googleProvider)
-   }
-  
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
+
   /* login with email */
 
   const loginUser = (email, password) => {
@@ -59,13 +61,27 @@ const AuthProvider = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       console.log("current User", currentUser);
-      setLoading(false);
+      if (currentUser) {
+        // get token store client side
+        const userInfo = { email: currentUser.email };
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("accsess-token", res.data.token);
+            setLoading(false);
+          }
+        });
+      } else {
+        //TODO: remove token (if token store client side : Local storage , cashing , in memory )
+        localStorage.removeItem("accsess-token");
+        setLoading(false);
+      }
+      // setLoading(false);
     });
 
     return () => {
       unSubscribe();
     };
-  }, []);
+  }, [axiosPublic]);
 
   const authInfo = {
     user,

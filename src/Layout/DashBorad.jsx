@@ -14,10 +14,11 @@ import {
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import UseCart from "../hooks/UseCart";
+import UseAdmin from "../hooks/UseAdmin";
 
 const DashBorad = () => {
   const [carts] = UseCart();
-  const isAdmin = true;
+  const [isAdmin] = UseAdmin()
   return (
     <div className="flex ">
       <div className="w-64 min-h-screen bg-[#D29E55] text-black  font-bold">
@@ -39,13 +40,13 @@ const DashBorad = () => {
 
               <li className="flex items-center gap-2">
                 <NavLink to="/dashborad/manageItems">
-                  <FaList></FaList> Manage Iteam 
+                  <FaList></FaList> Manage Iteam
                 </NavLink>
               </li>
 
               <li className="flex items-center gap-2">
                 <NavLink to="/dashborad/bookings">
-                  <FaBook></FaBook> Manage Bookings 
+                  <FaBook></FaBook> Manage Bookings
                 </NavLink>
               </li>
               <li className="flex items-center gap-2">
@@ -62,8 +63,8 @@ const DashBorad = () => {
                 </NavLink>
               </li>
               <li className="flex items-center gap-2">
-                <NavLink to="/dashborad/Reservatoin">
-                  <FaCalendar></FaCalendar>Reservatoin
+                <NavLink to="/dashborad/payementHistory">
+                  <FaCalendar></FaCalendar>payementHistory
                 </NavLink>
               </li>
               <li className="flex items-center gap-2">
